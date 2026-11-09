@@ -1,0 +1,53 @@
+# The hosts the plugin blocks, compiled into it by tools/gen_rules.py (src/generated/rules.h). One place to add what was
+# learned; a reviewable diff per change.
+#
+#   match     an exact name, or "*.name" for the name itself and every subdomain of it on a label boundary
+#   category  analytics | attribution | crash | engine - each switched by the option of that name, all on by default
+#   vendor    who collects there
+#   source    how the rule was learned: "vendor documentation" until an observe run confirms it, then "observed, <engine
+#             and kind of build>". Never a game's title.
+#
+# Only hosts that exist to collect. A host that also serves gameplay (logins, saves, matchmaking) is never blocked by
+# name; it needs a path rule, which the plugin does not have yet.
+
+rules:
+  # Product analytics
+  - { match: "*.gameanalytics.com",            category: analytics,   vendor: GameAnalytics,              source: "vendor documentation" }
+  - { match: "cdp.cloud.unity3d.com",          category: analytics,   vendor: Unity Analytics,            source: "vendor documentation" }
+  - { match: "api.uca.cloud.unity3d.com",      category: analytics,   vendor: Unity Analytics,            source: "vendor documentation" }
+  - { match: "config.uca.cloud.unity3d.com",   category: analytics,   vendor: Unity Analytics,            source: "vendor documentation" }
+  - { match: "collect.analytics.unity3d.com",  category: analytics,   vendor: Unity Gaming Services,      source: "vendor documentation" }
+  - { match: "*.deltadna.net",                 category: analytics,   vendor: deltaDNA,                   source: "vendor documentation" }
+  - { match: "*.google-analytics.com",         category: analytics,   vendor: Google Analytics,           source: "vendor documentation" }
+  - { match: "*.app-measurement.com",          category: analytics,   vendor: Google Analytics for Firebase, source: "vendor documentation" }
+  - { match: "firebaselogging-pa.googleapis.com", category: analytics, vendor: Firebase,                  source: "vendor documentation" }
+  - { match: "*.amplitude.com",                category: analytics,   vendor: Amplitude,                  source: "vendor documentation" }
+  - { match: "*.mixpanel.com",                 category: analytics,   vendor: Mixpanel,                   source: "vendor documentation" }
+  - { match: "api.segment.io",                 category: analytics,   vendor: Segment,                    source: "vendor documentation" }
+  - { match: "*.flurry.com",                   category: analytics,   vendor: Flurry,                     source: "vendor documentation" }
+  - { match: "*.appmetrica.yandex.net",        category: analytics,   vendor: AppMetrica,                 source: "vendor documentation" }
+  - { match: "*.events.data.microsoft.com",    category: analytics,   vendor: Microsoft 1DS,              source: "vendor documentation" }
+  - { match: "vortex.data.microsoft.com",      category: analytics,   vendor: Microsoft 1DS,              source: "vendor documentation" }
+
+  # Install attribution
+  - { match: "*.adjust.com",                   category: attribution, vendor: Adjust,                     source: "vendor documentation" }
+  - { match: "*.appsflyer.com",                 category: attribution, vendor: AppsFlyer,                  source: "vendor documentation" }
+  - { match: "*.appsflyersdk.com",              category: attribution, vendor: AppsFlyer,                  source: "vendor documentation" }
+  - { match: "*.singular.net",                 category: attribution, vendor: Singular,                   source: "vendor documentation" }
+  - { match: "*.kochava.com",                  category: attribution, vendor: Kochava,                    source: "vendor documentation" }
+
+  # Crash reporters
+  - { match: "sentry.io",                      category: crash,       vendor: Sentry,                     source: "vendor documentation" }
+  - { match: "*.ingest.sentry.io",             category: crash,       vendor: Sentry,                     source: "vendor documentation" }
+  - { match: "*.ingest.us.sentry.io",          category: crash,       vendor: Sentry,                     source: "vendor documentation" }
+  - { match: "*.ingest.de.sentry.io",          category: crash,       vendor: Sentry,                     source: "vendor documentation" }
+  - { match: "*.bugsplat.com",                 category: crash,       vendor: BugSplat,                   source: "vendor documentation" }
+  - { match: "*.backtrace.io",                 category: crash,       vendor: Backtrace,                  source: "vendor documentation" }
+  - { match: "*.bugsnag.com",                  category: crash,       vendor: Bugsnag,                    source: "vendor documentation" }
+  - { match: "*.crashlytics.com",              category: crash,       vendor: Crashlytics,                source: "vendor documentation" }
+  - { match: "crashlyticsreports-pa.googleapis.com", category: crash, vendor: Crashlytics,                source: "vendor documentation" }
+  - { match: "*.raygun.io",                    category: crash,       vendor: Raygun,                     source: "vendor documentation" }
+  - { match: "perf-events.cloud.unity3d.com",  category: crash,       vendor: Unity Cloud Diagnostics,    source: "vendor documentation" }
+
+  # Engines' own telemetry
+  - { match: "datarouter.ol.epicgames.com",    category: engine,      vendor: Unreal Engine,              source: "vendor documentation" }
